@@ -231,8 +231,8 @@ for (const pageFile of pageFiles) {
     `${pageFile} should wrap scrollable content in smooth-content`
   );
   assert(
-    page.includes(smooScrollUrl),
-    `${pageFile} should load SmooScroll manual-lite`
+    !page.includes(smooScrollUrl),
+    `${pageFile} should let main.js load SmooScroll conditionally`
   );
   assert(
     page.indexOf('class="site-header"') < page.indexOf('class="smooth-content"'),
@@ -317,6 +317,18 @@ for (const token of requiredDesktopThemeStyles) {
   assert(css.includes(token), `Desktop theme styles are missing token: ${token}`);
 }
 
+const requiredMobilePerformanceStyles = [
+  "@media (hover: none), (pointer: coarse), (max-width: 720px)",
+  "overscroll-behavior: auto;",
+  "body::after {\n    display: none;",
+  "[data-cursor-glow]::before {\n    display: none;",
+  "backdrop-filter: none;",
+];
+
+for (const token of requiredMobilePerformanceStyles) {
+  assert(css.includes(token), `Mobile performance styles are missing token: ${token}`);
+}
+
 const themeToggleStart = home.indexOf('class="theme-toggle"');
 assert(themeToggleStart !== -1, "Home page should include the desktop theme toggle");
 const themeToggleEnd = home.indexOf("</button>", themeToggleStart);
@@ -336,6 +348,23 @@ for (const token of forbiddenStyles) {
 
 for (const token of requiredScript) {
   assert(mainScript.includes(token), `Main script is missing token: ${token}`);
+}
+
+const requiredMobilePerformanceScript = [
+  smooScrollUrl,
+  'window.matchMedia("(hover: hover) and (pointer: fine)")',
+  'window.matchMedia("(min-width: 721px)")',
+  'window.matchMedia("(prefers-reduced-motion: reduce)")',
+  "function shouldUseDesktopMotion()",
+  "function loadDesktopSmoothScroll()",
+  'script.dataset.smoothScroll = "smooscroll"',
+  "if (!shouldUseDesktopMotion()) return;",
+  "function setupCustomCursor()",
+  "if (finePointerQuery.matches)",
+];
+
+for (const token of requiredMobilePerformanceScript) {
+  assert(mainScript.includes(token), `Mobile performance script is missing token: ${token}`);
 }
 
 for (const token of forbiddenScript) {
