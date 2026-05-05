@@ -1,0 +1,145 @@
+.site-header {
+  align-items: center;
+  backdrop-filter: blur(20px);
+  background: var(--header-bg);
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 24px clamp(20px, 4vw, 48px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.site-logo {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.site-nav {
+  align-items: center;
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.nav-zh {
+  color: var(--color-muted);
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  height: 22px;
+  overflow: hidden;
+  position: relative;
+  transition: color 180ms ease;
+  width: 80px;
+}
+
+.nav-zh span {
+  display: block;
+  height: 100%;
+  transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav-zh::before {
+  color: inherit;
+  content: attr(data-en);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateY(100%);
+  transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  width: 100%;
+}
+
+.nav-zh:hover span {
+  transform: translateY(-100%);
+}
+
+.nav-zh:hover::before {
+  transform: translateY(0);
+}
+
+.nav-zh:hover {
+  color: var(--color-text);
+}
+
+.nav-zh[aria-current="page"] {
+  color: var(--color-text);
+}
+
+.site-nav a:hover {
+  color: var(--color-text);
+}
+
+.theme-toggle {
+  align-items: center;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-blue);
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  color: var(--color-text);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+[data-theme="light"] .theme-toggle .icon-moon,
+[data-theme="dark"] .theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+  position: absolute;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon,
+[data-theme="light"] .theme-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.page-shell {
+  margin: 0 auto;
+  max-width: var(--max-content);
+  padding: 96px clamp(20px, 4vw, 48px);
+  width: 100%;
+}
+
+.site-footer {
+  align-items: center;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-muted-strong);
+  display: flex;
+  font-size: 14px;
+  justify-content: space-between;
+  margin: 48px auto 0;
+  max-width: var(--max-content);
+  padding: 28px clamp(20px, 4vw, 48px) 40px;
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .site-header,
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-nav {
+    flex-wrap: wrap;
+  }
+}

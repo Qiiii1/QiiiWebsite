@@ -1,0 +1,50 @@
+.about-hero h1 {
+  font-size: clamp(52px, 10vw, 124px);
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  margin: 0 0 42px;
+  max-width: 900px;
+}
+
+.about-layout {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1fr);
+}
+
+.about-photo {
+  aspect-ratio: 3 / 4;
+  border-radius: 32px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.about-copy {
+  align-self: stretch;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 56px);
+}
+
+.about-copy p {
+  color: var(--color-muted-strong);
+  font-size: 18px;
+  line-height: 1.8;
+  margin: 0 0 18px;
+}
+
+.about-copy .copy-button {
+  align-self: flex-start;
+  margin-top: 18px;
+}
+
+@media (max-width: 800px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+}

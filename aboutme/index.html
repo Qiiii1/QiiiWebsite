@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      (function() {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const savedTheme = localStorage.getItem("theme");
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
+    <title>About Me - Qiiii's Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Oleo Script Swash Caps:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/aboutme.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-logo" href="../home/">Qiiii's Site</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../home/" class="nav-zh" data-en="HOME"><span>首页</span></a>
+        <a href="../work/" class="nav-zh" data-en="WORKS"><span>作品</span></a>
+        <a href="../aboutme/" class="nav-zh" data-en="ABOUT ME" aria-current="page"><span>关于我</span></a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="smooth-content">
+      <main>
+        <section class="page-shell about-hero reveal-section section-visible" data-cursor-glow data-reveal-section data-lag="0.04">
+        <p class="section-kicker reveal">About Me</p>
+        <h1 class="reveal">Designer, developer, and explorer.</h1>
+        <div class="about-layout">
+          <img class="about-photo reveal" src="../assets/images/home/首页头像.PNG" alt="QLee portrait">
+          <div class="about-copy reveal">
+            <p>我喜欢把抽象的体验问题拆成可见、可试、可迭代的界面，并用代码把它落地。</p>
+            <p>页面风格沿用首页：黑色背景、蓝色渐变、克制的边框和高密度内容布局。</p>
+            <button class="copy-button" type="button" data-copy="lqi64949@gmail.com">lqi64949@gmail.com</button>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Qiiii's Site</span>
+        <a href="../work/">View work</a>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/ShuninYu/SmooScroll@v1.2.0/minified/smooscroll-manual-lite.min.js"></script>
+    <script src="../scripts/main.js"></script>
+  </body>
+</html>

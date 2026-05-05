@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      (function() {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const savedTheme = localStorage.getItem("theme");
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
+    <title>Home - Qiiii's Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Oleo Script Swash Caps:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/home.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-logo" href="../home/">Qiiii's Site</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../home/" class="nav-zh" data-en="HOME" aria-current="page"><span>首页</span></a>
+        <a href="../work/" class="nav-zh" data-en="WORKS"><span>作品</span></a>
+        <a href="../aboutme/" class="nav-zh" data-en="ABOUT ME"><span>关于我</span></a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="smooth-content">
+      <main>
+        <section class="hero-section" id="hero" data-cursor-glow>
+        <div class="hero-orbit" aria-hidden="true">
+          <span class="orbit-dot dot-a"></span>
+          <span class="orbit-dot dot-b"></span>
+        </div>
+        <div class="page-shell hero-shell">
+          <div class="hero-copy reveal scroll-lag" data-lag="0.025">
+            <h1>I'm QLee</h1>
+            <p class="eyebrow">Designer / Developer</p>
+            <p class="lede">我关注 Apple 生态、UX/UI、AIGC 与 VR 体验，把设计系统、交互原型和可落地开发连在一起。</p>
+            <div class="hero-actions">
+              <a class="button-primary" href="../work/">View Work</a>
+              <a class="button-secondary" href="#contact">Contact</a>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal scroll-lag" data-lag="0.045">
+            <div class="portrait-card">
+              <img src="../assets/images/home/首页头像.PNG" alt="QLee portrait">
+            </div>
+            <span class="floating-pill pill-apple">Apple Developer</span>
+            <span class="floating-pill pill-vr">VR Developer</span>
+            <span class="floating-pill pill-ai">AI Explorer</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-shell intro-section reveal-section" id="about" data-reveal-section data-lag="0.05">
+        <div class="section-kicker reveal">About</div>
+        <div class="intro-grid">
+          <h2 class="section-title reveal">Design, code, research, and bring ideas into a working product.</h2>
+          <div class="tool-vertical reveal">
+            <img class="tool-image-vertical" src="../assets/images/home/软件技能.png" alt="软件技能">
+            <div class="tool-list">
+              <span>Figma</span>
+              <span>Swift</span>
+              <span>SwiftUI</span>
+              <span>ArkUI</span>
+              <span>HTML5</span>
+              <span>Lightingroom</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-shell timeline-section reveal-section" id="experience" data-reveal-section data-lag="0.04">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Experience</p>
+          <h2>经历</h2>
+        </div>
+        <div class="timeline-list">
+          <article class="timeline-item reveal">
+            <div class="timeline-content">
+              <h3>湖南大学</h3>
+              <p class="timeline-role">硕士研究生 设计学</p>
+            </div>
+            <span class="timeline-date">2026-2029</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-content">
+              <h3>长沙师范学院</h3>
+              <p class="timeline-role">本科 数字媒体艺术</p>
+            </div>
+            <span class="timeline-date">2022-2026</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-content">
+              <h3>清华大学美术学院</h3>
+              <p class="timeline-role">线上实习生 - 开发</p>
+            </div>
+            <span class="timeline-date">2025.3 - 2025.7</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-content">
+              <h3>AdventureX 2024-2025</h3>
+              <p class="timeline-role">参赛者</p>
+            </div>
+            <span class="timeline-date">2024 - 2025</span>
+          </article>
+          
+          <article class="timeline-item reveal">
+            <div class="timeline-content">
+              <h3>LET'S VISION 2024-2025</h3>
+              <p class="timeline-role">STAFF</p>
+            </div>
+            <span class="timeline-date">2024 - 2026</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="page-shell works-section reveal-section" id="works" data-reveal-section data-lag="0.05">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Works</p>
+          <h2>精选作品</h2>
+        </div>
+        <div class="work-preview-grid">
+          <a class="project-card project-card-huazhongyou reveal" href="../work/huazhongyou/">
+            <img src="../assets/images/work/画中游封面.jpg" alt="画中游 project preview" loading="lazy">
+            <div>
+              <span>01</span>
+              <h3>画中游</h3>
+              <p>文化叙事与沉浸式交互作品。</p>
+            </div>
+          </a>
+          <a class="project-card project-card-drumgo reveal" href="../work/drumgo/">
+            <img src="../assets/images/work/Drumgo封面.png" alt="DrumGo project preview" loading="lazy">
+            <div>
+              <span>02</span>
+              <h3>DrumGo</h3>
+              <p>节奏训练与移动体验设计。</p>
+            </div>
+          </a>
+          <a class="project-card project-card-ansoul reveal" href="../work/ansoul/">
+            <img src="../assets/images/work/Ansoul封面.png" alt="Ansoul project preview" loading="lazy">
+            <div>
+              <span>03</span>
+              <h3>Ansoul</h3>
+              <p>情绪陪伴与智能交互应用。</p>
+            </div>
+          </a>
+          <a class="project-card project-card-lv reveal" href="../work/lets-vision/">
+            <img src="../assets/images/work/LETSVISION封面.png" alt="LET'S VISION project preview" loading="lazy">
+            <div>
+              <span>04</span>
+              <h3>LET'S VISION</h3>
+              <p>大会视觉设计与社媒运营。</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="page-shell honor-section reveal-section" id="honors" data-reveal-section data-lag="0.035">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Honor</p>
+          <h2>荣誉</h2>
+        </div>
+        <div class="honor-grid">
+          <article class="honor-card reveal">
+            <h3>2024中国高校计算机大赛 - 移动应用创新赛</h3>
+            <p class="honor-award">全国三等奖</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>IASDR 2025</h3>
+            <p class="honor-award">Best Paper</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>2024米兰设计周</h3>
+            <p class="honor-award">全国二等奖</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>2025中国高校计算机大赛 - 移动应用创新赛</h3>
+            <p class="honor-award">华中地区二等奖</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>2024Adventure X - visionOS赛道</h3>
+            <p class="honor-award">空间计算一等奖</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>2025Adventure X - 重新思考空间计算交互方式</h3>
+            <p class="honor-award">空间交互创新奖</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>App Development with Swift Associate</h3>
+            <p class="honor-award">苹果认证开发者</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>CET6</h3>
+            <p class="honor-award">451</p>
+          </article>
+          <article class="honor-card reveal">
+            <h3>软件著作权/设计著作权</h3>
+            <p class="honor-award">若干</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="certificate-section page-shell" id="certificates">
+        <div class="section-heading">
+          <p class="section-kicker">Certificates</p>
+          <h2 class="section-title">证书墙</h2>
+        </div>
+        <div class="certificate-list">
+          <div class="certificate-item">
+            <img src="../assets/images/home/全国三等奖.JPG" alt="全国三等奖证书" loading="lazy">
+          </div>
+          <div class="certificate-item">
+            <img src="../assets/images/home/IASDR 2025 Best Paper.jpg" alt="IASDR Best Paper certificate" loading="lazy">
+          </div>
+          <div class="certificate-item">
+            <img src="../assets/images/home/Ansoul软著.png" alt="Ansoul 软件著作权" loading="lazy">
+          </div>
+          <div class="certificate-item">
+            <img src="../assets/images/home/全国二等奖.jpg" alt="华中二等奖证书" loading="lazy">
+          </div>
+          <div class="certificate-item">
+            <img src="../assets/images/home/开发者证明.png" alt="开发者证明" loading="lazy">
+          </div>
+          <div class="certificate-item">
+            <img src="../assets/images/home/visionOS一等奖.png" alt="visionOS一等奖" loading="lazy">
+          </div>
+        </div>
+      </section>
+
+      <section class="page-shell contact-section reveal-section" id="contact" data-reveal-section data-lag="0.045">
+        <div class="contact-panel reveal" data-cursor-glow>
+          <p class="section-kicker">Contact</p>
+          <h2>Let's build the next idea.</h2>
+          <button class="copy-button" type="button" data-copy="lqi64949@gmail.com">lqi64949@gmail.com</button>
+        </div>
+      </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Qiiii's Site</span>
+        <span>Inspired by qiiii.online/HOME</span>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/ShuninYu/SmooScroll@v1.2.0/minified/smooscroll-manual-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/home.js"></script>
+  </body>
+</html>

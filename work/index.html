@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      (function() {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const savedTheme = localStorage.getItem("theme");
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
+    <title>Work - Qiiii's Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Oleo Script Swash Caps:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/work.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-logo" href="../home/">Qiiii's Site</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../home/" class="nav-zh" data-en="HOME"><span>首页</span></a>
+        <a href="../work/" class="nav-zh" data-en="WORKS" aria-current="page"><span>作品</span></a>
+        <a href="../aboutme/" class="nav-zh" data-en="ABOUT ME"><span>关于我</span></a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="smooth-content">
+      <main>
+        <section class="page-shell work-hero">
+        <p class="section-kicker reveal">Works</p>
+        <h1 class="reveal">Portfolio</h1>
+      </section>
+
+      <section class="page-shell project-stack" aria-label="Projects">
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/首页图A4双面.jpg" alt="作品集首页" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/简历和目录.jpg" alt="简历和目录" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-1.jpg" alt="画中游作品展示 1" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-2.jpg" alt="画中游作品展示 2" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-3.jpg" alt="画中游作品展示 3" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-4.jpg" alt="画中游作品展示 4" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-5.jpg" alt="画中游作品展示 5" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/画中游-6.jpg" alt="画中游作品展示 6" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-1.jpg" alt="DrumGo 作品展示 1" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-2.jpg" alt="DrumGo 作品展示 2" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-3.jpg" alt="DrumGo 作品展示 3" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-4.jpg" alt="DrumGo 作品展示 4" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-5.jpg" alt="DrumGo 作品展示 5" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/DrumGo-6.jpg" alt="DrumGo 作品展示 6" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/Ansoul-1.jpg" alt="Ansoul 作品展示 1" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/Ansoul-2.jpg" alt="Ansoul 作品展示 2" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/Ansoul-3.jpg" alt="Ansoul 作品展示 3" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/Ansoul-4.jpg" alt="Ansoul 作品展示 4" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/LV-1.jpg" alt="LET'S VISION 作品展示" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/千千家书-1.jpg" alt="千千家书作品展示" loading="lazy" decoding="async">
+        </figure>
+        <figure class="project-image-panel reveal">
+          <img src="../assets/images/projects/末尾页.jpg" alt="作品集末尾页" loading="lazy" decoding="async">
+        </figure>
+      </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Qiiii's Site</span>
+        <a href="../home/">Back home</a>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/ShuninYu/SmooScroll@v1.2.0/minified/smooscroll-manual-lite.min.js"></script>
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/work.js"></script>
+  </body>
+</html>

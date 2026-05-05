@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      (function() {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const savedTheme = localStorage.getItem("theme");
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
+    <title>Ansoul - Qiiii's Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Oleo Script Swash Caps:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/base.css">
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/project.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-logo" href="../../home/">Qiiii's Site</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../../home/" class="nav-zh" data-en="HOME"><span>首页</span></a>
+        <a href="../" class="nav-zh" data-en="WORKS" aria-current="page"><span>作品</span></a>
+        <a href="../../aboutme/" class="nav-zh" data-en="ABOUT ME"><span>关于我</span></a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="smooth-content">
+      <main class="project-page">
+        <section class="page-shell project-hero reveal-section section-visible" data-cursor-glow data-reveal-section data-lag="0.035">
+        <a class="back-link reveal" href="../">Back to Work</a>
+        <p class="section-kicker reveal">Project 03</p>
+        <h1 class="reveal">Ansoul</h1>
+        <p class="project-lede reveal">围绕情绪陪伴和智能交互展开的应用概念，关注温度、反馈和长期使用体验。</p>
+        <img class="project-cover reveal" src="../../assets/images/work/Ansoul封面.png" alt="Ansoul project cover">
+      </section>
+
+      <section class="page-shell project-detail-grid reveal-section" data-reveal-section data-lag="0.045">
+        <article class="detail-card reveal">
+          <span>Role</span>
+          <h2>UX/UI, app design</h2>
+        </article>
+        <article class="detail-card reveal">
+          <span>Focus</span>
+          <h2>Emotional companion</h2>
+        </article>
+        <article class="detail-card reveal">
+          <span>Output</span>
+          <h2>Software copyright</h2>
+        </article>
+      </section>
+
+      <section class="page-shell media-strip reveal-section" data-reveal-section data-lag="0.055">
+        <img class="reveal" src="../../assets/images/projects/Ansoul-2.jpg" alt="Ansoul detail 2" loading="lazy">
+        <img class="reveal" src="../../assets/images/projects/Ansoul-3.jpg" alt="Ansoul detail 3" loading="lazy">
+        <img class="reveal" src="../../assets/images/projects/Ansoul-4.jpg" alt="Ansoul detail 4" loading="lazy">
+      </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/ShuninYu/SmooScroll@v1.2.0/minified/smooscroll-manual-lite.min.js"></script>
+    <script src="../../scripts/main.js"></script>
+    <script src="../../scripts/project.js"></script>
+  </body>
+</html>
