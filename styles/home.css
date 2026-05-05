@@ -514,8 +514,25 @@
 
 @media (max-width: 600px) {
   .portrait-card {
-    aspect-ratio: 1;
     max-width: clamp(160px, 60vw, 280px);
+  }
+
+  .portrait-card img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .honor-card {
+    min-height: 80px;
+    padding: 16px;
+  }
+
+  .honor-card h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .honor-award {
+    font-size: 12px;
   }
 
   .hero-visual {
@@ -537,7 +554,7 @@
   }
 
   .certificate-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -614,5 +631,86 @@
   .dot-a,
   .dot-b {
     opacity: 0.42;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero-section {
+    min-height: auto;
+    overflow: visible;
+    padding-top: 84px;
+  }
+
+  .hero-shell {
+    align-items: start;
+    gap: 22px;
+    min-height: auto;
+    padding: 24px clamp(20px, 6vw, 32px) 40px;
+  }
+
+  .hero-section h1 {
+    font-size: clamp(54px, 17vw, 88px);
+    margin: 8px 0;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .lede {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    margin-top: 18px;
+  }
+
+  .hero-visual {
+    min-height: clamp(220px, 70vw, 330px);
+  }
+
+  .portrait-card {
+    aspect-ratio: 4 / 5;
+    max-width: min(68vw, 260px);
+  }
+
+  .floating-pill {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+
+  .pill-apple {
+    right: 4%;
+    top: 5%;
+  }
+
+  .pill-vr {
+    left: 4%;
+    top: 48%;
+  }
+
+  .pill-ai {
+    bottom: 8%;
+    right: 8%;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-section {
+    padding-top: 76px;
+  }
+
+  .hero-shell {
+    padding-top: 18px;
+  }
+
+  .hero-visual {
+    min-height: 220px;
+  }
+
+  .portrait-card {
+    max-width: 220px;
   }
 }

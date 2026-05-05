@@ -25,6 +25,17 @@
         <a href="../home/" class="nav-zh" data-en="HOME"><span>首页</span></a>
         <a href="../work/" class="nav-zh" data-en="WORKS"><span>作品</span></a>
         <a href="../aboutme/" class="nav-zh" data-en="ABOUT ME" aria-current="page"><span>关于我</span></a>
+        <div class="nav-theme-toggle">
+          <button id="navThemeToggle" aria-label="Toggle theme">
+            <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+        </div>
       </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -35,22 +46,78 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <svg class="icon-hamburger" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </header>
 
     <div class="smooth-content">
       <main>
-        <section class="page-shell about-hero reveal-section section-visible" data-cursor-glow data-reveal-section data-lag="0.04">
+        <section class="page-shell about-hero reveal-section section-visible" data-reveal-section data-lag="0.04">
         <p class="section-kicker reveal">About Me</p>
         <h1 class="reveal">Designer, developer, and explorer.</h1>
-        <div class="about-layout">
-          <img class="about-photo reveal" src="../assets/images/home/首页头像.PNG" alt="QLee portrait">
-          <div class="about-copy reveal">
-            <p>我喜欢把抽象的体验问题拆成可见、可试、可迭代的界面，并用代码把它落地。</p>
-            <p>页面风格沿用首页：黑色背景、蓝色渐变、克制的边框和高密度内容布局。</p>
-            <button class="copy-button" type="button" data-copy="lqi64949@gmail.com">lqi64949@gmail.com</button>
+        
+
+        <section class="photo-masonry">
+          <img src="../assets/images/aboutme/Scene2.PNG" alt="Scene" class="photo-full">
+
+          <div class="photo-row-portrait">
+            <div class="photo-track">
+              <img src="../assets/images/aboutme/Personal1.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene6.JPG" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal5.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene16.JPG" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal1.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene6.JPG" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal5.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene16.JPG" alt="Scene" class="portrait">
+            </div>
           </div>
-        </div>
-      </section>
+
+          <div class="photo-asymmetric">
+            <img src="../assets/images/aboutme/Scene4.JPG" alt="Scene">
+            <img src="../assets/images/aboutme/Scene5.JPG" alt="Scene">
+          </div>
+
+          <div class="photo-row-portrait">
+            <div class="photo-track">
+              <img src="../assets/images/aboutme/Personal4.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene1.jpg" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal7.JPG" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene17.JPG" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal6.png" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene13.jpg" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal4.jpg" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene1.jpg" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal7.JPG" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene17.JPG" alt="Scene" class="portrait">
+              <img src="../assets/images/aboutme/Personal6.png" alt="Personal" class="portrait">
+              <img src="../assets/images/aboutme/Scene13.jpg" alt="Scene" class="portrait">
+            </div>
+          </div>
+
+          <img src="../assets/images/aboutme/Scene7.JPG" alt="Scene" class="photo-full">
+
+          <div class="photo-carousel">
+            <img src="../assets/images/aboutme/Scene3.JPG" alt="Scene" class="active">
+            <img src="../assets/images/aboutme/Scene8.JPG" alt="Scene">
+            <img src="../assets/images/aboutme/Scene9.JPG" alt="Scene">
+          </div>
+
+          <div class="photo-carousel">
+            <img src="../assets/images/aboutme/Scene10.JPG" alt="Scene" class="active">
+            <img src="../assets/images/aboutme/Scene14.PNG" alt="Scene">
+            <img src="../assets/images/aboutme/Scene15.JPG" alt="Scene">
+          </div>
+        </section>
       </main>
 
       <footer class="site-footer">

@@ -35,9 +35,6 @@ const smooScrollUrl =
 const requiredHomeSections = [
   'id="hero"',
   'id="about"',
-  'id="skills"',
-  'id="professional"',
-  'id="tools"',
   'id="experience"',
   'id="works"',
   'id="honors"',
@@ -50,9 +47,9 @@ const requiredHomeCopy = [
   "Designer",
   "Developer",
   "Apple Developer",
-  "UX/UI Designer",
   "AI Explorer",
   "VR Developer",
+  "Design, code, research",
   "DrumGo",
   "Ansoul",
   "LET'S VISION",
@@ -100,20 +97,38 @@ const requiredStyles = [
   ".js-enabled .reveal:not(.is-visible)",
   ".reveal.is-visible",
   "opacity: 0.5",
-  "translate3d(0, 32px, 0) scale(0.6)",
+  "translate3d(0, 32px, 0) scale(0.8)",
   "620ms cubic-bezier(0.2, 0.8, 0.2, 1)",
   ".project-card",
   ".project-stack",
   ".project-image-panel",
-  "content-visibility: auto",
   "--card-image-ratio",
-  "aspect-ratio: 1",
-  "2871 / 2335",
-  "2617 / 1919",
-  "1304 / 1080",
-  "2882 / 1922",
-  ".certificate-wall",
+  "aspect-ratio: 4 / 5",
   "@media",
+];
+
+const requiredMobileNavStyles = [
+  "align-self: flex-end;",
+  "width: min(220px, calc(100vw - 40px));",
+  "transform-origin: right top;",
+  "transform: translateX(18px) scaleX(0.96);",
+  "pointer-events: none;",
+  "transform: translateX(0) scaleX(1);",
+];
+
+const requiredMobileHeroStyles = [
+  ".hero-section {",
+  "padding-top: 84px;",
+  ".hero-shell {",
+  "min-height: auto;",
+  "aspect-ratio: 4 / 5;",
+  "max-width: min(68vw, 260px);",
+];
+
+const requiredDesktopThemeStyles = [
+  ".nav-theme-toggle {\n  display: none;",
+  ".menu-toggle {\n  display: none;",
+  ".theme-toggle .icon-moon {\n  display: none;",
 ];
 
 const requiredScript = [
@@ -189,10 +204,11 @@ for (const file of requiredFiles) {
 
 const home = await readFile("home/index.html", "utf8");
 const work = await readFile("work/index.html", "utf8");
+const homeCss = await readFile("styles/home.css", "utf8");
 const css = [
   await readFile("styles/base.css", "utf8"),
   await readFile("styles/layout.css", "utf8"),
-  await readFile("styles/home.css", "utf8"),
+  homeCss,
   await readFile("styles/work.css", "utf8"),
   await readFile("styles/project.css", "utf8"),
 ].join("\n");
@@ -282,6 +298,37 @@ for (const remoteImage of replacedRemoteImages) {
 for (const token of requiredStyles) {
   assert(css.includes(token), `Styles are missing token: ${token}`);
 }
+
+for (const token of requiredMobileNavStyles) {
+  assert(css.includes(token), `Mobile nav styles are missing token: ${token}`);
+}
+
+for (const token of requiredMobileHeroStyles) {
+  assert(css.includes(token), `Mobile hero styles are missing token: ${token}`);
+}
+
+const mobileHomeHeroStyles = homeCss.slice(homeCss.lastIndexOf("@media (max-width: 720px)"));
+assert(
+  mobileHomeHeroStyles.includes(".portrait-card {\n    aspect-ratio: 4 / 5;"),
+  "Home mobile portrait card should use a vertical 4 / 5 ratio"
+);
+
+for (const token of requiredDesktopThemeStyles) {
+  assert(css.includes(token), `Desktop theme styles are missing token: ${token}`);
+}
+
+const themeToggleStart = home.indexOf('class="theme-toggle"');
+assert(themeToggleStart !== -1, "Home page should include the desktop theme toggle");
+const themeToggleEnd = home.indexOf("</button>", themeToggleStart);
+const desktopThemeToggle = home.slice(themeToggleStart, themeToggleEnd);
+assert(
+  desktopThemeToggle.includes("icon-sun"),
+  "Home desktop theme toggle should keep the sun icon"
+);
+assert(
+  !desktopThemeToggle.includes("icon-moon"),
+  "Home desktop theme toggle should not include a moon icon"
+);
 
 for (const token of forbiddenStyles) {
   assert(!css.includes(token), `Styles should not animate whole sections: ${token}`);

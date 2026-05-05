@@ -6,12 +6,29 @@ const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
 document.documentElement.dataset.theme = initialTheme;
 
 const themeToggle = document.getElementById("themeToggle");
+const menuToggle = document.getElementById("menuToggle");
+const navThemeToggle = document.getElementById("navThemeToggle");
+const siteNav = document.querySelector(".site-nav");
+
+function toggleTheme() {
+  const current = document.documentElement.dataset.theme;
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("theme", next);
+}
+
 if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    const current = document.documentElement.dataset.theme;
-    const next = current === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem("theme", next);
+  themeToggle.addEventListener("click", toggleTheme);
+}
+
+if (navThemeToggle) {
+  navThemeToggle.addEventListener("click", toggleTheme);
+}
+
+if (menuToggle && siteNav) {
+  menuToggle.addEventListener("click", () => {
+    siteNav.classList.toggle("open");
+    document.documentElement.classList.toggle("menu-open");
   });
 }
 
@@ -145,6 +162,47 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
       button.textContent = value;
     }
   });
+});
+
+document.querySelectorAll(".photo-row-portrait").forEach(row => {
+  const track = row.querySelector(".photo-track");
+  if (!track) return;
+
+  let scrollAmount = 0;
+  const speed = 1;
+  let isPaused = false;
+
+  function scroll() {
+    if (!isPaused) {
+      const firstImg = track.querySelector("img");
+      if (firstImg) {
+        const itemWidth = firstImg.offsetWidth + 16;
+        scrollAmount += speed;
+        const maxScroll = track.scrollWidth / 2;
+        if (scrollAmount >= maxScroll) {
+          scrollAmount = 0;
+        }
+        track.style.transform = `translateX(-${scrollAmount}px)`;
+      }
+    }
+    requestAnimationFrame(scroll);
+  }
+
+  row.addEventListener("mouseenter", () => isPaused = true);
+  row.addEventListener("mouseleave", () => isPaused = false);
+
+  scroll();
+});
+
+document.querySelectorAll(".photo-carousel").forEach(carousel => {
+  const images = carousel.querySelectorAll("img");
+  let current = 0;
+
+  setInterval(() => {
+    images[current].classList.remove("active");
+    current = (current + 1) % images.length;
+    images[current].classList.add("active");
+  }, 3000);
 });
 
 document.querySelectorAll("[data-cursor-glow]").forEach((surface) => {

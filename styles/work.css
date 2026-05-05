@@ -22,7 +22,7 @@
 
 .project-stack {
   display: grid;
-  gap: clamp(8px, 1.5vw, 16px);
+  gap: clamp(4px, 1vw, 8px);
   max-width: 1240px;
   padding-top: 0;
 }
@@ -32,10 +32,16 @@
   border: none;
   border-radius: 8px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
-  content-visibility: auto;
-  contain-intrinsic-size: 352px 998px;
   margin: 0;
   overflow: hidden;
+  will-change: transform;
+  transform: scale(1);
+  transition: transform 300ms ease;
+}
+
+.project-image-panel:hover {
+  transform: scale(1.03) !important;
+  transition: transform 300ms ease !important;
 }
 
 .project-image-panel img {
