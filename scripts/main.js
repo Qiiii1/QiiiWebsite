@@ -9,6 +9,11 @@ const themeToggle = document.getElementById("themeToggle");
 const menuToggle = document.getElementById("menuToggle");
 const navThemeToggle = document.getElementById("navThemeToggle");
 const siteNav = document.querySelector(".site-nav");
+const smooScrollUrl =
+  "https://cdn.jsdelivr.net/gh/ShuninYu/SmooScroll@v1.2.0/minified/smooscroll-manual-lite.min.js";
+const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+const desktopScrollQuery = window.matchMedia("(min-width: 721px)");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function toggleTheme() {
   const current = document.documentElement.dataset.theme;
@@ -32,43 +37,66 @@ if (menuToggle && siteNav) {
   });
 }
 
-const cursor = document.createElement("div");
-cursor.className = "custom-cursor";
-document.body.appendChild(cursor);
-
-let cursorX = 0, cursorY = 0;
-let targetX = 0, targetY = 0;
-let isClicking = false;
-
-document.addEventListener("pointermove", (e) => {
-  targetX = e.clientX;
-  targetY = e.clientY;
-});
-
-document.addEventListener("pointerdown", () => {
-  isClicking = true;
-  cursor.classList.add("clicking");
-});
-
-document.addEventListener("pointerup", () => {
-  isClicking = false;
-  cursor.classList.remove("clicking");
-});
-
-function animateCursor() {
-  const ease = 0.15;
-  cursorX += (targetX - cursorX) * ease;
-  cursorY += (targetY - cursorY) * ease;
-  cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-  requestAnimationFrame(animateCursor);
+function shouldUseDesktopMotion() {
+  return finePointerQuery.matches && desktopScrollQuery.matches && !reducedMotionQuery.matches;
 }
-animateCursor();
 
-const interactiveElements = document.querySelectorAll("a, button, [role=\"button\"]");
-interactiveElements.forEach((el) => {
-  el.addEventListener("mouseenter", () => cursor.classList.add("hovering"));
-  el.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
-});
+function loadDesktopSmoothScroll() {
+  if (!shouldUseDesktopMotion()) return;
+  if (document.querySelector('script[data-smooth-scroll="smooscroll"]')) return;
+
+  const script = document.createElement("script");
+  script.src = smooScrollUrl;
+  script.async = true;
+  script.dataset.smoothScroll = "smooscroll";
+  document.body.appendChild(script);
+}
+
+function setupCustomCursor() {
+  const cursor = document.createElement("div");
+  cursor.className = "custom-cursor";
+  document.body.appendChild(cursor);
+
+  let cursorX = 0;
+  let cursorY = 0;
+  let targetX = 0;
+  let targetY = 0;
+
+  document.addEventListener("pointermove", (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  });
+
+  document.addEventListener("pointerdown", () => {
+    cursor.classList.add("clicking");
+  });
+
+  document.addEventListener("pointerup", () => {
+    cursor.classList.remove("clicking");
+  });
+
+  function animateCursor() {
+    const ease = 0.15;
+    cursorX += (targetX - cursorX) * ease;
+    cursorY += (targetY - cursorY) * ease;
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
+
+  const interactiveElements = document.querySelectorAll("a, button, [role=\"button\"]");
+  interactiveElements.forEach((el) => {
+    el.addEventListener("mouseenter", () => cursor.classList.add("hovering"));
+    el.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
+  });
+}
+
+loadDesktopSmoothScroll();
+
+if (finePointerQuery.matches) {
+  setupCustomCursor();
+}
 
 const revealTargets = document.querySelectorAll(".reveal");
 
@@ -164,62 +192,68 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
-document.querySelectorAll(".photo-row-portrait").forEach(row => {
-  const track = row.querySelector(".photo-track");
-  if (!track) return;
+if (shouldUseDesktopMotion()) {
+  document.querySelectorAll(".photo-row-portrait").forEach(row => {
+    const track = row.querySelector(".photo-track");
+    if (!track) return;
 
-  let scrollAmount = 0;
-  const speed = 1;
-  let isPaused = false;
+    let scrollAmount = 0;
+    const speed = 1;
+    let isPaused = false;
 
-  function scroll() {
-    if (!isPaused) {
-      const firstImg = track.querySelector("img");
-      if (firstImg) {
-        const itemWidth = firstImg.offsetWidth + 16;
-        scrollAmount += speed;
-        const maxScroll = track.scrollWidth / 2;
-        if (scrollAmount >= maxScroll) {
-          scrollAmount = 0;
+    function scroll() {
+      if (!isPaused) {
+        const firstImg = track.querySelector("img");
+        if (firstImg) {
+          const itemWidth = firstImg.offsetWidth + 16;
+          scrollAmount += speed;
+          const maxScroll = track.scrollWidth / 2;
+          if (scrollAmount >= maxScroll) {
+            scrollAmount = 0;
+          }
+          track.style.transform = `translateX(-${scrollAmount}px)`;
         }
-        track.style.transform = `translateX(-${scrollAmount}px)`;
       }
+      requestAnimationFrame(scroll);
     }
-    requestAnimationFrame(scroll);
-  }
 
-  row.addEventListener("mouseenter", () => isPaused = true);
-  row.addEventListener("mouseleave", () => isPaused = false);
+    row.addEventListener("mouseenter", () => isPaused = true);
+    row.addEventListener("mouseleave", () => isPaused = false);
 
-  scroll();
-});
+    scroll();
+  });
+}
 
-document.querySelectorAll(".photo-carousel").forEach(carousel => {
-  const images = carousel.querySelectorAll("img");
-  let current = 0;
+if (finePointerQuery.matches && !reducedMotionQuery.matches) {
+  document.querySelectorAll(".photo-carousel").forEach(carousel => {
+    const images = carousel.querySelectorAll("img");
+    let current = 0;
 
-  setInterval(() => {
-    images[current].classList.remove("active");
-    current = (current + 1) % images.length;
-    images[current].classList.add("active");
-  }, 3000);
-});
+    setInterval(() => {
+      images[current].classList.remove("active");
+      current = (current + 1) % images.length;
+      images[current].classList.add("active");
+    }, 3000);
+  });
+}
 
-document.querySelectorAll("[data-cursor-glow]").forEach((surface) => {
-  let frame = 0;
-  let nextX = 50;
-  let nextY = 50;
+if (finePointerQuery.matches) {
+  document.querySelectorAll("[data-cursor-glow]").forEach((surface) => {
+    let frame = 0;
+    let nextX = 50;
+    let nextY = 50;
 
-  surface.addEventListener("pointermove", (event) => {
-    const rect = surface.getBoundingClientRect();
-    nextX = ((event.clientX - rect.left) / rect.width) * 100;
-    nextY = ((event.clientY - rect.top) / rect.height) * 100;
+    surface.addEventListener("pointermove", (event) => {
+      const rect = surface.getBoundingClientRect();
+      nextX = ((event.clientX - rect.left) / rect.width) * 100;
+      nextY = ((event.clientY - rect.top) / rect.height) * 100;
 
-    if (frame) return;
-    frame = requestAnimationFrame(() => {
-      surface.style.setProperty("--mx", `${nextX}%`);
-      surface.style.setProperty("--my", `${nextY}%`);
-      frame = 0;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        surface.style.setProperty("--mx", `${nextX}%`);
+        surface.style.setProperty("--my", `${nextY}%`);
+        frame = 0;
+      });
     });
   });
-});
+}

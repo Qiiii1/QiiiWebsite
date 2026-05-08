@@ -67,6 +67,17 @@ body::after {
   z-index: 9999;
 }
 
+@media (hover: none), (pointer: coarse), (max-width: 720px) {
+  html,
+  body {
+    overscroll-behavior: auto;
+  }
+
+  body::after {
+    display: none;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -281,4 +292,10 @@ video {
   inset: 0;
   pointer-events: none;
   position: absolute;
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 720px) {
+  [data-cursor-glow]::before {
+    display: none;
+  }
 }

@@ -157,6 +157,7 @@
 @media (max-width: 720px) {
   .site-header {
     align-items: flex-start;
+    backdrop-filter: none;
     flex-wrap: wrap;
     gap: 12px;
     padding: 14px clamp(18px, 5vw, 24px);

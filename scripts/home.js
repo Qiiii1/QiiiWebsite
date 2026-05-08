@@ -1,15 +1,25 @@
 const hero = document.querySelector(".hero-section");
+const coarsePointerQuery = window.matchMedia("(hover: none), (pointer: coarse)");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 if (hero) {
+  let heroFadeFrame = 0;
   const updateHeroFade = () => {
     const progress = Math.min(window.scrollY / (window.innerHeight * 0.75), 1);
     hero.style.setProperty("--hero-fade", String(1 - progress));
+  };
+  const requestHeroFade = () => {
+    if (heroFadeFrame) return;
+    heroFadeFrame = window.requestAnimationFrame(() => {
+      heroFadeFrame = 0;
+      updateHeroFade();
+    });
   };
 
   updateHeroFade();
   window.addEventListener(
     "scroll",
-    updateHeroFade,
+    requestHeroFade,
     { passive: true }
   );
 }
@@ -30,7 +40,7 @@ if (certificateItems.length > 0) {
 }
 
 const matterContainer = document.getElementById("matter");
-if (matterContainer) {
+if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matches) {
   let hasAnimated = false;
   const observer = new IntersectionObserver(
     ([entry]) => {
