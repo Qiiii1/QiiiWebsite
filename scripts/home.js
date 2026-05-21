@@ -26,6 +26,43 @@ if (hero) {
 
 const certificateItems = document.querySelectorAll(".certificate-item");
 if (certificateItems.length > 0) {
+  const certificateList = document.querySelector(".certificate-list");
+  let certificateRevealFrame = 0;
+
+  const isSmoothScrollActive = () => document.documentElement.classList.contains("smooth-scroll-active");
+
+  const showAllCertificates = () => {
+    certificateList?.classList.remove("reveal-ready");
+    certificateItems.forEach((item) => item.classList.add("visible"));
+  };
+
+  const revealVisibleCertificates = () => {
+    if (isSmoothScrollActive()) {
+      showAllCertificates();
+      return;
+    }
+
+    certificateList?.classList.add("reveal-ready");
+    const viewportBottom = window.innerHeight * 0.9;
+
+    certificateItems.forEach((item) => {
+      if (item.classList.contains("visible")) return;
+
+      const rect = item.getBoundingClientRect();
+      if (rect.top < viewportBottom && rect.bottom > 0) {
+        item.classList.add("visible");
+      }
+    });
+  };
+
+  const requestCertificateReveal = () => {
+    if (certificateRevealFrame) return;
+    certificateRevealFrame = window.requestAnimationFrame(() => {
+      certificateRevealFrame = 0;
+      revealVisibleCertificates();
+    });
+  };
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -37,6 +74,10 @@ if (certificateItems.length > 0) {
     { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
   );
   certificateItems.forEach((item) => observer.observe(item));
+  revealVisibleCertificates();
+  window.addEventListener("scroll", requestCertificateReveal, { passive: true });
+  window.addEventListener("smooth-scroll-render", requestCertificateReveal);
+  window.addEventListener("resize", requestCertificateReveal, { passive: true });
 }
 
 const matterContainer = document.getElementById("matter");

@@ -76,13 +76,20 @@
   will-change: transform;
 }
 
-.photo-row-portrait img {
-  flex-shrink: 0;
+.photo-track .responsive-image {
+  aspect-ratio: 3 / 4;
+  flex: 0 0 auto;
   height: 320px;
   width: auto;
+}
+
+.photo-row-portrait img {
+  border-radius: 12px;
+  flex-shrink: 0;
+  height: 100%;
+  width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  border-radius: 12px;
 }
 
 .photo-row-landscape {
@@ -98,11 +105,15 @@
   aspect-ratio: 16 / 10;
 }
 
+.photo-carousel .responsive-image,
 .photo-carousel img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.photo-carousel img {
   object-fit: cover;
   opacity: 0;
   transition: opacity 800ms ease;
@@ -114,6 +125,7 @@
 
 .photo-full {
   width: 100%;
+  height: auto;
   border-radius: 16px;
 }
 
@@ -123,8 +135,14 @@
   gap: 16px;
 }
 
+.photo-asymmetric .responsive-image {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
 .photo-asymmetric img {
   aspect-ratio: 16 / 9;
+  height: 100%;
   object-fit: cover;
   width: 100%;
   border-radius: 12px;
@@ -139,7 +157,7 @@
     grid-template-columns: 1fr;
   }
 
-  .photo-row-portrait img {
+  .photo-track .responsive-image {
     height: 280px;
   }
 
