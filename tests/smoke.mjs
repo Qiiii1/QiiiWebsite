@@ -90,7 +90,7 @@ const requiredWorkImageOrder = [
 
 const requiredLocalImageRefs = [
   "assets/images/optimized/home/首页头像-480.webp",
-  "assets/images/optimized/home/软件技能-480.webp",
+  "assets/images/home/软件技能.png",
   "assets/images/work/画中游封面.jpg",
   "assets/images/work/Drumgo封面.png",
   "assets/images/work/Ansoul封面.png",
@@ -543,8 +543,17 @@ for (const token of requiredDesktopThemeStyles) {
 const requiredAboutPictureLayoutStyles = [
   ".photo-track .responsive-image",
   "flex: 0 0 auto;",
+  "overflow-x: auto;",
+  "-webkit-overflow-scrolling: touch;",
+  "scroll-snap-type: x proximity;",
+  ".photo-row-portrait.is-auto-scrolling",
+  ".photo-row-portrait.is-dragging",
+  "-webkit-user-drag: none;",
+  "user-select: none;",
+  "pointer-events: none;",
   ".photo-carousel .responsive-image",
   "position: absolute;",
+  "scroll-snap-type: x mandatory;",
   ".photo-asymmetric .responsive-image",
   ".photo-full",
 ];
@@ -615,6 +624,16 @@ for (const token of requiredSmoothScrollStabilityStyles) {
   assert(css.includes(token), `Smooth scroll stability styles are missing token: ${token}`);
 }
 
+const desktopHeaderBlock = css.slice(css.indexOf(".site-header {"), css.indexOf(".site-logo {"));
+assert(
+  desktopHeaderBlock.includes("backdrop-filter: none;"),
+  "Desktop header should use the same non-blur material as mobile"
+);
+assert(
+  !desktopHeaderBlock.includes("backdrop-filter: blur(20px);"),
+  "Desktop header should not keep the old blurred glass material"
+);
+
 const themeToggleStart = home.indexOf('class="theme-toggle"');
 assert(themeToggleStart !== -1, "Home page should include the desktop theme toggle");
 const themeToggleEnd = home.indexOf("</button>", themeToggleStart);
@@ -663,6 +682,28 @@ const requiredMobilePerformanceScript = [
 
 for (const token of requiredMobilePerformanceScript) {
   assert(mainScript.includes(token), `Mobile performance script is missing token: ${token}`);
+}
+
+const requiredAboutPhotoMotionScript = [
+  "setupAutoScrollPhotoRows",
+  'document.querySelectorAll(".photo-row-portrait")',
+  "row.scrollLeft",
+  'row.addEventListener("pointerdown"',
+  'row.addEventListener("pointermove"',
+  'row.addEventListener("pointerup"',
+  'row.addEventListener("pointerleave"',
+  "setPointerCapture",
+  "releasePointerCapture",
+  "image.draggable = false",
+  'row.addEventListener("dragstart"',
+  "event.preventDefault()",
+  'row.addEventListener("scroll"',
+  "setupPhotoCarousels",
+  'document.querySelectorAll(".photo-carousel")',
+];
+
+for (const token of requiredAboutPhotoMotionScript) {
+  assert(mainScript.includes(token), `About photo motion script is missing token: ${token}`);
 }
 
 for (const token of forbiddenScript) {

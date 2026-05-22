@@ -1,6 +1,6 @@
 .site-header {
   align-items: center;
-  backdrop-filter: blur(20px);
+  backdrop-filter: none;
   background: var(--header-bg);
   display: flex;
   gap: 24px;

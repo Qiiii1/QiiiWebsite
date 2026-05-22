@@ -61,25 +61,46 @@
 .photo-row-portrait {
   display: flex;
   gap: 16px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding-bottom: 16px;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
 }
 
 .photo-row-portrait::-webkit-scrollbar {
   display: none;
 }
 
+.photo-row-portrait.is-auto-scrolling {
+  scroll-snap-type: none;
+}
+
+.photo-row-portrait.is-dragging {
+  scroll-snap-type: none;
+}
+
+.photo-row-portrait img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+  user-select: none;
+}
+
 .photo-track {
   display: flex;
   gap: 16px;
-  will-change: transform;
+  min-width: max-content;
+  will-change: scroll-position;
 }
 
 .photo-track .responsive-image {
   aspect-ratio: 3 / 4;
   flex: 0 0 auto;
   height: 320px;
+  scroll-snap-align: start;
   width: auto;
 }
 
@@ -163,5 +184,33 @@
 
   .photo-row-landscape {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .photo-carousel {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .photo-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .photo-carousel .responsive-image {
+    flex: 0 0 100%;
+    height: 100%;
+    inset: auto;
+    position: relative;
+    scroll-snap-align: center;
+    width: 100%;
+  }
+
+  .photo-carousel img {
+    opacity: 1;
   }
 }
