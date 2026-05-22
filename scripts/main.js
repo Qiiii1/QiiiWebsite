@@ -12,8 +12,8 @@ const siteNav = document.querySelector(".site-nav");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 const desktopScrollQuery = window.matchMedia("(min-width: 721px)");
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-const SMOOTH_SCROLL_EASE = 0.22;
-const SCROLL_SETTLE_DISTANCE = 0.01;
+const SMOOTH_SCROLL_LERP = 0.14;
+const SCROLL_SETTLE_DISTANCE = 0.5;
 const CURSOR_EASE = 0.32;
 
 function toggleTheme() {
@@ -43,77 +43,51 @@ function shouldUseDesktopMotion() {
 }
 
 function setupDesktopSmoothScroll() {
-  const smoothContent = document.querySelector(".smooth-content");
-  const header = document.querySelector(".site-header");
-  if (!smoothContent) return;
-
   let currentY = window.scrollY;
+  let targetY = window.scrollY;
   let frame = 0;
-  let heightFrame = 0;
-  let lastHeaderHeight = -1;
-  let lastPageHeight = -1;
-  let resizeObserver = null;
   let isActive = false;
 
-  function getHeaderHeight() {
-    return header ? header.offsetHeight : 0;
+  function getScrollLimit() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   }
 
-  function updatePageHeight() {
-    if (!isActive) return;
-    const headerHeight = Math.ceil(getHeaderHeight());
-    const pageHeight = Math.ceil(headerHeight + smoothContent.scrollHeight);
-
-    if (pageHeight !== lastPageHeight) {
-      document.body.style.height = `${pageHeight}px`;
-      lastPageHeight = pageHeight;
-    }
-
-    if (headerHeight !== lastHeaderHeight) {
-      smoothContent.style.top = `${headerHeight}px`;
-      lastHeaderHeight = headerHeight;
-    }
+  function clampScrollTarget(value) {
+    return Math.min(Math.max(value, 0), getScrollLimit());
   }
 
-  function schedulePageHeightUpdate() {
-    if (heightFrame) return;
-    heightFrame = requestAnimationFrame(() => {
-      heightFrame = 0;
-      updatePageHeight();
-    });
+  function normalizeWheelDelta(event) {
+    if (event.deltaMode === 1) return event.deltaY * 16;
+    if (event.deltaMode === 2) return event.deltaY * window.innerHeight;
+    return event.deltaY;
   }
 
-  function loadSmoothScrollImages() {
-    document.querySelectorAll("img[loading=\"lazy\"]").forEach((image) => {
-      image.loading = "eager";
-      if (!image.complete) {
-        image.addEventListener("load", schedulePageHeightUpdate, { once: true });
-        image.addEventListener("error", schedulePageHeightUpdate, { once: true });
-      }
-    });
-  }
+  function shouldKeepNativeWheel(event) {
+    if (event.ctrlKey || event.metaKey || event.defaultPrevented) return true;
 
-  function render() {
-    smoothContent.style.transform = `translate3d(0, ${-currentY}px, 0)`;
-    window.dispatchEvent(new CustomEvent("smooth-scroll-render"));
-  }
-
-  function syncToWindow() {
-    currentY = window.scrollY;
-    if (isActive) render();
+    const scrollable = event.target?.closest?.(".photo-row-portrait, .photo-carousel");
+    return Boolean(scrollable && scrollable.scrollWidth > scrollable.clientWidth);
   }
 
   function animateScroll() {
-    if (!isActive) return;
-
-    const targetY = window.scrollY;
-    currentY += (targetY - currentY) * SMOOTH_SCROLL_EASE;
-
-    if (Math.abs(targetY - currentY) < SCROLL_SETTLE_DISTANCE) {
-      currentY = targetY;
+    if (!isActive) {
+      frame = 0;
+      return;
     }
 
-    render();
+    const distance = targetY - currentY;
+
+    if (Math.abs(distance) < SCROLL_SETTLE_DISTANCE) {
+      currentY = targetY;
+      window.scrollTo(0, currentY);
+      window.dispatchEvent(new CustomEvent("smooth-scroll-render"));
+      frame = 0;
+      return;
+    }
+
+    currentY += distance * SMOOTH_SCROLL_LERP;
+    window.scrollTo(0, currentY);
+    window.dispatchEvent(new CustomEvent("smooth-scroll-render"));
     frame = requestAnimationFrame(animateScroll);
   }
 
@@ -128,54 +102,23 @@ function setupDesktopSmoothScroll() {
       cancelAnimationFrame(frame);
       frame = 0;
     }
-
-    if (heightFrame) {
-      cancelAnimationFrame(heightFrame);
-      heightFrame = 0;
-    }
   }
 
   function enableSmoothScroll() {
     if (isActive || !shouldUseDesktopMotion()) return;
     isActive = true;
     currentY = window.scrollY;
+    targetY = currentY;
     document.documentElement.classList.add("smooth-scroll-active");
-    smoothContent.style.position = "fixed";
-    smoothContent.style.left = "0";
-    smoothContent.style.right = "0";
-    smoothContent.style.width = "100%";
-    smoothContent.style.willChange = "transform";
-    smoothContent.style.backfaceVisibility = "hidden";
-    loadSmoothScrollImages();
-    updatePageHeight();
-    render();
-    resizeObserver = new ResizeObserver(schedulePageHeightUpdate);
-    resizeObserver.observe(smoothContent);
-    if (header) resizeObserver.observe(header);
-    startAnimation();
   }
 
   function disableSmoothScroll() {
     if (!isActive) return;
     isActive = false;
     stopAnimation();
-    if (resizeObserver) {
-      resizeObserver.disconnect();
-      resizeObserver = null;
-    }
     document.documentElement.classList.remove("smooth-scroll-active");
-    document.body.style.height = "";
-    lastHeaderHeight = -1;
-    lastPageHeight = -1;
-    smoothContent.style.position = "";
-    smoothContent.style.left = "";
-    smoothContent.style.right = "";
-    smoothContent.style.top = "";
-    smoothContent.style.width = "";
-    smoothContent.style.transform = "";
-    smoothContent.style.willChange = "";
-    smoothContent.style.backfaceVisibility = "";
     currentY = window.scrollY;
+    targetY = currentY;
   }
 
   function onMotionQueryChange() {
@@ -187,14 +130,32 @@ function setupDesktopSmoothScroll() {
     enableSmoothScroll();
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  function onScroll() {
+  function onWheel(event) {
     if (!isActive) return;
+    if (shouldKeepNativeWheel(event)) return;
+
+    const deltaY = normalizeWheelDelta(event);
+    if (Math.abs(deltaY) < 0.5) return;
+
+    event.preventDefault();
+    targetY = clampScrollTarget(targetY + deltaY);
     startAnimation();
   }
 
-  window.addEventListener("resize", schedulePageHeightUpdate, { passive: true });
-  window.addEventListener("load", schedulePageHeightUpdate, { once: true });
+  function onNativeScroll() {
+    if (frame || !isActive) return;
+    currentY = window.scrollY;
+    targetY = currentY;
+  }
+
+  function onResize() {
+    targetY = clampScrollTarget(targetY);
+    currentY = clampScrollTarget(currentY);
+  }
+
+  window.addEventListener("wheel", onWheel, { passive: false });
+  window.addEventListener("scroll", onNativeScroll, { passive: true });
+  window.addEventListener("resize", onResize, { passive: true });
   finePointerQuery.addEventListener("change", onMotionQueryChange);
   desktopScrollQuery.addEventListener("change", onMotionQueryChange);
   reducedMotionQuery.addEventListener("change", onMotionQueryChange);
@@ -254,10 +215,6 @@ function getSmoothAnchorTop(target) {
   const headerOffset = header ? header.offsetHeight : 0;
 
   if (smoothContent && smoothContent.contains(target)) {
-    if (document.documentElement.classList.contains("smooth-scroll-active")) {
-      return Math.max(0, target.offsetTop);
-    }
-
     return Math.max(0, target.offsetTop - headerOffset);
   }
 

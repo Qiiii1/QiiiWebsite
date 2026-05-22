@@ -107,7 +107,7 @@ const requiredStyles = [
   ".reveal.is-visible",
   "opacity: 0.5",
   "translate3d(0, 32px, 0) scale(0.8)",
-  "620ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+  "760ms cubic-bezier(0.45, 0, 0.35, 1)",
   ".project-card",
   ".project-stack",
   ".project-image-panel",
@@ -159,13 +159,14 @@ const requiredScript = [
   "CURSOR_EASE",
   "requestAnimationFrame",
   "setupDesktopSmoothScroll",
-  "smoothContent.style.transform",
-  "document.body.style.height",
-  "ResizeObserver",
+  "SMOOTH_SCROLL_LERP",
+  "normalizeWheelDelta",
+  "clampScrollTarget",
+  "shouldKeepNativeWheel",
+  'window.addEventListener("wheel", onWheel, { passive: false })',
+  "window.scrollTo(0, currentY)",
   "smooth-scroll-active",
   "smooth-scroll-render",
-  "schedulePageHeightUpdate",
-  "lastPageHeight",
   "SCROLL_SETTLE_DISTANCE",
 ];
 
@@ -181,11 +182,12 @@ const forbiddenStyles = [
 const forbiddenScript = [
   "setupDesktopSmoothWheel",
   "shouldSmoothWheel",
-  "normalizeWheelDelta",
   "isLikelyTrackpad",
   "WHEEL_FOLLOW_RATIO",
   "applyImmediateWheelStep",
-  'window.addEventListener("wheel"',
+  'smoothContent.style.position = "fixed"',
+  "smoothContent.style.transform",
+  "document.body.style.height",
   "unobserve",
   "lagTargets",
   "data-reveal-section",
@@ -242,6 +244,10 @@ const css = [
 ].join("\n");
 const mainScript = await readFile("scripts/main.js", "utf8");
 const homeScript = await readFile("scripts/home.js", "utf8");
+assert(
+  homeScript.trimStart().startsWith("(() => {"),
+  "Home script should be scoped to avoid global variable collisions with main.js"
+);
 const workScript = await readFile("scripts/work.js", "utf8");
 const aboutCss = await readFile("styles/aboutme.css", "utf8");
 const renderedPages = [
@@ -577,28 +583,32 @@ for (const token of requiredCertificatePictureStyles) {
   assert(homeCss.includes(token), `Certificate picture styles are missing token: ${token}`);
 }
 
-const requiredSmoothImageLoadingScript = [
-  "loadSmoothScrollImages",
-  'document.querySelectorAll("img[loading=\\"lazy\\"]")',
-  'image.loading = "eager"',
-  "image.addEventListener(\"load\", schedulePageHeightUpdate",
-];
-
-for (const token of requiredSmoothImageLoadingScript) {
-  assert(mainScript.includes(token), `Smooth image loading script is missing token: ${token}`);
-}
+assert(
+  !mainScript.includes('image.loading = "eager"'),
+  "Smooth scroll should not force all lazy images to eager-load on desktop"
+);
 
 const requiredCertificateVisibilityScript = [
   "revealVisibleCertificates",
   "certificateRevealFrame",
-  "showAllCertificates",
-  "document.documentElement.classList.contains(\"smooth-scroll-active\")",
   "window.addEventListener(\"scroll\", requestCertificateReveal",
   "window.addEventListener(\"smooth-scroll-render\", requestCertificateReveal",
 ];
 
 for (const token of requiredCertificateVisibilityScript) {
   assert(homeScript.includes(token), `Certificate visibility script is missing token: ${token}`);
+}
+
+const requiredHomePhysicsPerformanceScript = [
+  "let isMatterVisible = false",
+  "isMatterVisible = entry.isIntersecting",
+  "const elementSizes = []",
+  "elementSizes.push",
+  "if (!isMatterVisible || document.hidden) return;",
+];
+
+for (const token of requiredHomePhysicsPerformanceScript) {
+  assert(homeScript.includes(token), `Home physics performance script is missing token: ${token}`);
 }
 
 const requiredMobilePerformanceStyles = [
@@ -672,8 +682,8 @@ const requiredMobilePerformanceScript = [
   "function shouldUseDesktopMotion()",
   "function setupDesktopSmoothScroll()",
   "if (isActive || !shouldUseDesktopMotion()) return;",
-  'window.addEventListener("scroll", onScroll, { passive: true })',
-  'smoothContent.style.position = "fixed"',
+  'window.addEventListener("wheel", onWheel, { passive: false })',
+  'window.addEventListener("scroll", onNativeScroll, { passive: true })',
   'document.documentElement.classList.add("smooth-scroll-active")',
   "finePointerQuery.addEventListener",
   "function setupCustomCursor()",

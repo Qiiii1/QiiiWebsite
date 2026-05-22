@@ -1,3 +1,4 @@
+(() => {
 const hero = document.querySelector(".hero-section");
 const coarsePointerQuery = window.matchMedia("(hover: none), (pointer: coarse)");
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -29,19 +30,7 @@ if (certificateItems.length > 0) {
   const certificateList = document.querySelector(".certificate-list");
   let certificateRevealFrame = 0;
 
-  const isSmoothScrollActive = () => document.documentElement.classList.contains("smooth-scroll-active");
-
-  const showAllCertificates = () => {
-    certificateList?.classList.remove("reveal-ready");
-    certificateItems.forEach((item) => item.classList.add("visible"));
-  };
-
   const revealVisibleCertificates = () => {
-    if (isSmoothScrollActive()) {
-      showAllCertificates();
-      return;
-    }
-
     certificateList?.classList.add("reveal-ready");
     const viewportBottom = window.innerHeight * 0.9;
 
@@ -83,8 +72,10 @@ if (certificateItems.length > 0) {
 const matterContainer = document.getElementById("matter");
 if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matches) {
   let hasAnimated = false;
+  let isMatterVisible = false;
   const observer = new IntersectionObserver(
     ([entry]) => {
+      isMatterVisible = entry.isIntersecting;
       if (entry.isIntersecting && !hasAnimated) {
         hasAnimated = true;
         initMatter();
@@ -112,6 +103,7 @@ if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matche
     const items = matterContainer.querySelectorAll(".physics-item");
     const rectangles = [];
     const elements = [];
+    const elementSizes = [];
 
     items.forEach((item) => {
       const rect = item.getBoundingClientRect();
@@ -123,6 +115,7 @@ if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matche
       });
       rectangles.push(circle);
       elements.push(item);
+      elementSizes.push({ width: rect.width, height: rect.height });
       item.style.position = "absolute";
     });
 
@@ -147,6 +140,8 @@ if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matche
 
     (function run() {
       window.requestAnimationFrame(run);
+      if (!isMatterVisible || document.hidden) return;
+
       for (let i = 0; i < subSteps; i += 1) {
         Engine.update(engine, subDelta);
       }
@@ -156,9 +151,7 @@ if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matche
       rectangles.forEach((rectangle, index) => {
         const { position, angle } = rectangle;
         const domItem = elements[index];
-        const domRect = domItem.getBoundingClientRect();
-        const w = domRect.width;
-        const h = domRect.height;
+        const { width: w, height: h } = elementSizes[index];
 
         domItem.style.transform = `translate(${position.x - w / 2}px, ${position.y - h / 2}px) rotate(${angle}rad)`;
         domItem.style.left = "0px";
@@ -167,3 +160,4 @@ if (matterContainer && !coarsePointerQuery.matches && !reducedMotionQuery.matche
     });
   }
 }
+})();
