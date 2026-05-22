@@ -141,7 +141,9 @@ const requiredMobileHeroStyles = [
 const requiredDesktopThemeStyles = [
   ".nav-theme-toggle {\n  display: none;",
   ".menu-toggle {\n  display: none;",
-  ".theme-toggle .icon-moon {\n  display: none;",
+  ".theme-toggle .icon-sun,\n.theme-toggle .icon-moon",
+  "[data-theme=\"dark\"] .theme-toggle .icon-moon",
+  "[data-theme=\"light\"] .theme-toggle .icon-sun",
 ];
 
 const requiredScript = [
@@ -697,8 +699,8 @@ assert(
   "Home desktop theme toggle should keep the sun icon"
 );
 assert(
-  !desktopThemeToggle.includes("icon-moon"),
-  "Home desktop theme toggle should not include a moon icon"
+  desktopThemeToggle.includes("icon-moon"),
+  "Home desktop theme toggle should include the moon icon for theme switching"
 );
 
 for (const token of forbiddenStyles) {
