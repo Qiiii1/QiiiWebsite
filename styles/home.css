@@ -1,6 +1,7 @@
 .hero-section {
   background: transparent;
-  min-height: 100vh;
+  min-height: calc(100vh - 69px);
+  min-height: calc(100svh - 69px);
   overflow: hidden;
   position: relative;
 }
@@ -10,9 +11,10 @@
   display: grid;
   gap: clamp(32px, 7vw, 96px);
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
-  min-height: 100vh;
+  min-height: calc(100vh - 69px);
+  min-height: calc(100svh - 69px);
   opacity: var(--hero-fade, 1);
-  padding: 80px clamp(20px, 4vw, 48px) 0;
+  padding: 36px clamp(20px, 4vw, 48px) 48px;
   transition: opacity 140ms linear;
   max-width: var(--max-content);
   margin: 0 auto;
@@ -655,14 +657,14 @@
   .hero-section {
     min-height: auto;
     overflow: visible;
-    padding-top: 84px;
+    padding-top: 28px;
   }
 
   .hero-shell {
-    align-items: start;
+    align-items: center;
     gap: 22px;
     min-height: auto;
-    padding: 24px clamp(20px, 6vw, 32px) 40px;
+    padding: 16px clamp(20px, 6vw, 32px) 36px;
   }
 
   .hero-section h1 {
@@ -716,11 +718,11 @@
 
 @media (max-width: 420px) {
   .hero-section {
-    padding-top: 76px;
+    padding-top: 24px;
   }
 
   .hero-shell {
-    padding-top: 18px;
+    padding-top: 12px;
   }
 
   .hero-visual {

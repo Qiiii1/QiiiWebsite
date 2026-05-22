@@ -6,7 +6,7 @@
   display: flex;
   gap: 24px;
   justify-content: space-between;
-  padding: 24px clamp(20px, 4vw, 48px);
+  padding: 14px clamp(20px, 4vw, 48px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -112,7 +112,7 @@
   display: none;
   position: fixed;
   right: clamp(20px, 4vw, 48px);
-  top: 24px;
+  top: 14px;
   background: none;
   border: 1px solid var(--color-line);
   border-radius: 50%;
@@ -162,7 +162,7 @@
     backdrop-filter: blur(16px) saturate(160%);
     flex-wrap: wrap;
     gap: 12px;
-    padding: 14px clamp(18px, 5vw, 24px);
+    padding: 10px clamp(18px, 5vw, 24px);
   }
 
   .site-logo {
@@ -175,7 +175,7 @@
     align-items: center;
     justify-content: center;
     right: clamp(18px, 5vw, 24px);
-    top: 14px;
+    top: 10px;
   }
 
   .menu-toggle svg {

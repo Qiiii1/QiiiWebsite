@@ -104,6 +104,8 @@ const requiredStyles = [
   "linear-gradient",
   "picture.responsive-image",
   ".hero-section",
+  "min-height: calc(100svh - 69px);",
+  "padding: 36px clamp(20px, 4vw, 48px) 48px;",
   ".floating-pill",
   ".js-enabled .reveal:not(.is-visible)",
   ".reveal.is-visible",
@@ -129,7 +131,7 @@ const requiredMobileNavStyles = [
 
 const requiredMobileHeroStyles = [
   ".hero-section {",
-  "padding-top: 84px;",
+  "padding-top: 28px;",
   ".hero-shell {",
   "min-height: auto;",
   "aspect-ratio: 4 / 5;",
