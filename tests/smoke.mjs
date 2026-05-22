@@ -275,12 +275,25 @@ const projectDetailPages = Object.values(projectPages).join("\n");
 
 const entryPages = [home, work, await readFile("aboutme/index.html", "utf8")].join("\n");
 
-assert(root.includes('window.location.replace("home/")'), "Root page should immediately route to home");
-assert(root.includes('content="0; url=home/"'), "Root page should keep a no-JS fallback redirect to home");
+assert(root.includes('window.location.replace(isLocalPreview ? "home/" : "HOME")'), "Root page should route production to /HOME and local preview to /home/");
+assert(root.includes('content="0; url=HOME"'), "Root page should keep a no-JS fallback redirect to /HOME");
+assert(root.includes('rel="canonical" href="HOME"'), "Root page should declare /HOME as canonical");
 assert(root.includes('href="assets/images/home/webIcon.png"'), "Root page should use webIcon as the site icon");
 assert(
-  vercelConfig.includes('"source": "/"') && vercelConfig.includes('"destination": "/home/"'),
-  "Vercel config should redirect the root domain to /home/"
+  vercelConfig.includes('"source": "/"') && vercelConfig.includes('"destination": "/HOME"'),
+  "Vercel config should redirect the root domain to /HOME"
+);
+assert(
+  vercelConfig.includes('"source": "/home"') &&
+    vercelConfig.includes('"source": "/home/"') &&
+    vercelConfig.includes('"destination": "/HOME"'),
+  "Vercel config should redirect lowercase home paths to /HOME"
+);
+assert(
+  vercelConfig.includes('"rewrites"') &&
+    vercelConfig.includes('"source": "/HOME"') &&
+    vercelConfig.includes('"destination": "/home/"'),
+  "Vercel config should rewrite /HOME to the existing home page"
 );
 
 const expectedIconPaths = [

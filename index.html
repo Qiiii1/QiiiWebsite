@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="assets/images/home/webIcon.png">
     <link rel="apple-touch-icon" href="assets/images/home/webIcon.png">
-    <link rel="canonical" href="home/">
-    <meta http-equiv="refresh" content="0; url=home/">
+    <link rel="canonical" href="HOME">
+    <meta http-equiv="refresh" content="0; url=HOME">
     <script>
-      window.location.replace("home/");
+      const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+      window.location.replace(isLocalPreview ? "home/" : "HOME");
     </script>
     <title>Qiiii's Site</title>
   </head>
   <body>
-    <p><a href="home/">Enter Qiiii's Site</a></p>
+    <p><a href="HOME">Enter Qiiii's Site</a></p>
   </body>
 </html>

@@ -2,8 +2,24 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/home/",
+      "destination": "/HOME",
       "permanent": false
+    },
+    {
+      "source": "/home",
+      "destination": "/HOME",
+      "permanent": false
+    },
+    {
+      "source": "/home/",
+      "destination": "/HOME",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/HOME",
+      "destination": "/home/"
     }
   ]
 }
