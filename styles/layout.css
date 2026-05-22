@@ -1,6 +1,7 @@
 .site-header {
   align-items: center;
-  backdrop-filter: none;
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
   background: var(--header-bg);
   display: flex;
   gap: 24px;
@@ -157,7 +158,8 @@
 @media (max-width: 720px) {
   .site-header {
     align-items: flex-start;
-    backdrop-filter: none;
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
     flex-wrap: wrap;
     gap: 12px;
     padding: 14px clamp(18px, 5vw, 24px);

@@ -18,6 +18,8 @@ const requiredFiles = [
   "scripts/main.js",
   "scripts/home.js",
   "scripts/work.js",
+  "assets/images/home/webIcon.png",
+  "vercel.json",
 ];
 
 const requiredOptimizedImages = [
@@ -232,6 +234,8 @@ for (const [file, maxBytes] of requiredOptimizedImages) {
   );
 }
 
+const root = await readFile("index.html", "utf8");
+const vercelConfig = await readFile("vercel.json", "utf8");
 const home = await readFile("home/index.html", "utf8");
 const work = await readFile("work/index.html", "utf8");
 const homeCss = await readFile("styles/home.css", "utf8");
@@ -270,6 +274,31 @@ const projectPages = {
 const projectDetailPages = Object.values(projectPages).join("\n");
 
 const entryPages = [home, work, await readFile("aboutme/index.html", "utf8")].join("\n");
+
+assert(root.includes('window.location.replace("home/")'), "Root page should immediately route to home");
+assert(root.includes('content="0; url=home/"'), "Root page should keep a no-JS fallback redirect to home");
+assert(root.includes('href="assets/images/home/webIcon.png"'), "Root page should use webIcon as the site icon");
+assert(
+  vercelConfig.includes('"source": "/"') && vercelConfig.includes('"destination": "/home/"'),
+  "Vercel config should redirect the root domain to /home/"
+);
+
+const expectedIconPaths = [
+  "assets/images/home/webIcon.png",
+  "../assets/images/home/webIcon.png",
+  "../../assets/images/home/webIcon.png",
+];
+
+for (const iconPath of expectedIconPaths) {
+  assert(
+    [root, renderedPages].join("\n").includes(`rel="icon" type="image/png" href="${iconPath}"`),
+    `Rendered pages should include favicon path: ${iconPath}`
+  );
+  assert(
+    [root, renderedPages].join("\n").includes(`rel="apple-touch-icon" href="${iconPath}"`),
+    `Rendered pages should include apple touch icon path: ${iconPath}`
+  );
+}
 
 for (const pageFile of pageFiles) {
   const page = await readFile(pageFile, "utf8");
@@ -616,7 +645,7 @@ const requiredMobilePerformanceStyles = [
   "overscroll-behavior: auto;",
   "body::after {\n    display: none;",
   "[data-cursor-glow]::before {\n    display: none;",
-  "backdrop-filter: none;",
+  "backdrop-filter: blur(16px) saturate(160%);",
 ];
 
 for (const token of requiredMobilePerformanceStyles) {
@@ -636,12 +665,12 @@ for (const token of requiredSmoothScrollStabilityStyles) {
 
 const desktopHeaderBlock = css.slice(css.indexOf(".site-header {"), css.indexOf(".site-logo {"));
 assert(
-  desktopHeaderBlock.includes("backdrop-filter: none;"),
-  "Desktop header should use the same non-blur material as mobile"
+  desktopHeaderBlock.includes("backdrop-filter: blur(18px) saturate(160%);"),
+  "Desktop header should use a blurred banner material"
 );
 assert(
-  !desktopHeaderBlock.includes("backdrop-filter: blur(20px);"),
-  "Desktop header should not keep the old blurred glass material"
+  desktopHeaderBlock.includes("-webkit-backdrop-filter: blur(18px) saturate(160%);"),
+  "Desktop header should include WebKit blur support"
 );
 
 const themeToggleStart = home.indexOf('class="theme-toggle"');
