@@ -237,8 +237,31 @@ picture.responsive-image {
 .reveal {
   opacity: 1;
   transform: none;
-  transition: opacity 640ms cubic-bezier(0.45, 0, 0.35, 1),
-    transform 760ms cubic-bezier(0.45, 0, 0.35, 1);
+  transition: opacity 520ms cubic-bezier(0.45, 0, 0.35, 1),
+    transform 620ms cubic-bezier(0.45, 0, 0.35, 1);
+}
+
+.tool-vertical.reveal,
+.intro-card.reveal,
+.tool-copy.reveal,
+.professional-panel.reveal,
+.contact-panel.reveal,
+.timeline-item.reveal,
+.skill-card.reveal,
+.honor-card.reveal,
+.detail-card.reveal,
+.project-card.reveal,
+.project-cover.reveal,
+.project-text-block.reveal,
+.project-actions.reveal,
+.project-image-panel.reveal,
+.project-media-stack .project-image-panel.reveal {
+  transition: opacity 520ms cubic-bezier(0.45, 0, 0.35, 1),
+    transform 620ms cubic-bezier(0.45, 0, 0.35, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    background-color 220ms ease,
+    color 220ms ease;
 }
 
 .js-enabled .reveal:not(.is-visible) {
