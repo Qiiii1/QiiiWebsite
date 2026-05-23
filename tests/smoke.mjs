@@ -18,6 +18,7 @@ const requiredFiles = [
   "scripts/main.js",
   "scripts/home.js",
   "scripts/work.js",
+  "scripts/site-services.js",
   "assets/images/home/webIcon.png",
   "vercel.json",
 ];
@@ -261,6 +262,7 @@ assert(
   "Home script should be scoped to avoid global variable collisions with main.js"
 );
 const workScript = await readFile("scripts/work.js", "utf8");
+const analyticsScript = await readFile("scripts/site-services.js", "utf8");
 const aboutCss = await readFile("styles/aboutme.css", "utf8");
 const renderedPages = [
   home,
@@ -335,7 +337,20 @@ for (const pageFile of pageFiles) {
     page.indexOf('class="site-header"') < page.indexOf('class="smooth-content"'),
     `${pageFile} should keep the header outside smooth-content`
   );
+  assert(
+    page.includes("scripts/site-services.js?v=20260523"),
+    `${pageFile} should load the shared Vercel Web Analytics initializer`
+  );
 }
+
+assert(
+  analyticsScript.includes('analyticsScript.src = "/_vercel/insights/script.js"'),
+  "Analytics initializer should load the Vercel Web Analytics tracking script"
+);
+assert(
+  analyticsScript.includes('"localhost"') && analyticsScript.includes('"127.0.0.1"'),
+  "Analytics initializer should not send local preview traffic"
+);
 
 for (const token of requiredHomeSections) {
   assert(home.includes(token), `Home page is missing section token: ${token}`);
