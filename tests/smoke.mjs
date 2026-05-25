@@ -348,14 +348,19 @@ for (const pageFile of pageFiles) {
     `${pageFile} should keep the header outside smooth-content`
   );
   assert(
-    page.includes("scripts/site-services.js?v=20260523"),
-    `${pageFile} should load the shared Vercel Web Analytics initializer`
+    page.includes("scripts/site-services.js?v=20260526"),
+    `${pageFile} should load the current shared Vercel observability initializer`
   );
 }
 
 assert(
   analyticsScript.includes('analyticsScript.src = "/_vercel/insights/script.js"'),
   "Analytics initializer should load the Vercel Web Analytics tracking script"
+);
+assert(
+  analyticsScript.includes("window.si") &&
+    analyticsScript.includes('speedInsightsScript.src = "/_vercel/speed-insights/script.js"'),
+  "Analytics initializer should load the Vercel Speed Insights tracking script"
 );
 assert(
   analyticsScript.includes('"localhost"') && analyticsScript.includes('"127.0.0.1"'),

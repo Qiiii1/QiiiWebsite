@@ -10,4 +10,13 @@
   analyticsScript.defer = true;
   analyticsScript.src = "/_vercel/insights/script.js";
   document.head.appendChild(analyticsScript);
+
+  window.si = window.si || function () {
+    (window.siq = window.siq || []).push(arguments);
+  };
+
+  const speedInsightsScript = document.createElement("script");
+  speedInsightsScript.defer = true;
+  speedInsightsScript.src = "/_vercel/speed-insights/script.js";
+  document.head.appendChild(speedInsightsScript);
 })();
