@@ -14,6 +14,11 @@
       "source": "/home/",
       "destination": "/HOME",
       "permanent": false
+    },
+    {
+      "source": "/page-1",
+      "destination": "/work/huazhongyou/",
+      "permanent": true
     }
   ],
   "rewrites": [

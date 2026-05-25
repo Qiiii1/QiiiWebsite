@@ -245,6 +245,7 @@ for (const [file, maxBytes] of requiredOptimizedImages) {
 
 const root = await readFile("index.html", "utf8");
 const vercelConfig = await readFile("vercel.json", "utf8");
+const deploymentConfig = JSON.parse(vercelConfig);
 const home = await readFile("home/index.html", "utf8");
 const work = await readFile("work/index.html", "utf8");
 const homeCss = await readFile("styles/home.css", "utf8");
@@ -304,6 +305,15 @@ assert(
     vercelConfig.includes('"source": "/HOME"') &&
     vercelConfig.includes('"destination": "/home/"'),
   "Vercel config should rewrite /HOME to the existing home page"
+);
+assert(
+  deploymentConfig.redirects.some(
+    ({ source, destination, permanent }) =>
+      source === "/page-1" &&
+      destination === "/work/huazhongyou/" &&
+      permanent === true
+  ),
+  "Vercel config should permanently redirect /page-1 to the Huazhongyou project page"
 );
 
 const expectedIconPaths = [
