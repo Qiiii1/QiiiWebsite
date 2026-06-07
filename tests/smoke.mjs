@@ -65,6 +65,7 @@ const requiredHomeCopy = [
   "Ansoul",
   "LET'S VISION",
   "lqi64949@gmail.com",
+  "GitHub",
 ];
 
 const requiredWorkImageOrder = [
@@ -374,6 +375,14 @@ for (const token of requiredHomeSections) {
 for (const token of requiredHomeCopy) {
   assert(home.includes(token), `Home page is missing copy token: ${token}`);
 }
+
+assert(
+  home.includes('class="contact-actions"') &&
+    home.includes('href="https://github.com/Qiiii1"') &&
+    home.includes('target="_blank"') &&
+    home.includes('rel="noopener noreferrer"'),
+  "Home contact section should include a safe external GitHub profile button"
+);
 
 for (const token of [
   'class="responsive-image"',

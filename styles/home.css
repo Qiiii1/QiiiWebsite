@@ -591,6 +591,13 @@
   max-width: 780px;
 }
 
+.contact-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .contact-section {
   position: relative;
 }
