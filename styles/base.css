@@ -197,6 +197,11 @@ picture.responsive-image {
   line-height: 1.25;
 }
 
+.site-logo,
+.matrix-label {
+  -webkit-text-stroke: 0.018em currentColor;
+}
+
 @media (max-width: 720px) {
   :root {
     --dot-spacing: 28px;
@@ -214,6 +219,7 @@ picture.responsive-image {
 
 .project-index {
   font-family: "Qiiii Matrix", var(--font-mono);
+  -webkit-text-stroke: 0;
 }
 
 .editorial-title {

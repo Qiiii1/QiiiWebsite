@@ -54,7 +54,8 @@ const requiredHomeSections = [
 ];
 
 const requiredHomeCopy = [
-  "I'm QLee",
+  '<h1 class="editorial-title">I\'m QLee</h1>',
+  '<p class="section-kicker matrix-label">Honor</p>',
   "Designer",
   "Developer",
   "Apple Developer",

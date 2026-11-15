@@ -17,7 +17,6 @@
   font-family: "Qiiii Matrix Letters", var(--font-display);
   font-size: 24px;
   font-weight: 400;
-  -webkit-text-stroke: 0.35px currentColor;
 }
 
 .site-nav {
