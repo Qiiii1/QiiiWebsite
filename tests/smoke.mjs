@@ -650,10 +650,11 @@ for (const token of requiredAboutPictureLayoutStyles) {
 const aboutHtml = await readFile("aboutme/index.html", "utf8");
 const gallerySources = [...aboutHtml.matchAll(/<img src="\.\.\/(assets\/images\/optimized\/aboutme\/[^"]+)"/g)]
   .map(([, src]) => src);
-assert(gallerySources.length === 28 && new Set(gallerySources).size === 28, "About gallery should show each photo once");
+assert(gallerySources.length === 33 && new Set(gallerySources).size === 33, "About gallery should show each photo once");
 const uploadedPhotos = [
   "august-0486", "august-0783", "august-0817", "coast-overlook",
   "coast-breakers", "coast-pine-trail", "coast-pine-shore", "coast-stone-steps",
+  "photo-0949", "photo-1288", "photo-7781", "dining-room", "night-facade",
 ];
 for (const name of uploadedPhotos) {
   const base = `assets/images/optimized/aboutme/${name}`;
@@ -662,6 +663,7 @@ for (const name of uploadedPhotos) {
     assert(existsSync(`${base}-${suffix}`), `About gallery asset is missing: ${base}-${suffix}`);
   }
 }
+assert(existsSync("assets/images/optimized/aboutme/photo-7781-1440.webp"), "Gallery lead should have a wide image variant");
 
 const requiredCertificatePictureStyles = [
   ".portrait-card .responsive-image",
