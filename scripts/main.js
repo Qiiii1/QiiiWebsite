@@ -42,6 +42,11 @@ function shouldUseDesktopMotion() {
   return finePointerQuery.matches && desktopScrollQuery.matches && !reducedMotionQuery.matches;
 }
 
+function isHorizontalWheel(event) {
+  return !event.ctrlKey && !event.metaKey &&
+    (Math.abs(event.deltaX) > Math.abs(event.deltaY) || (event.shiftKey && event.deltaY !== 0));
+}
+
 function setupDesktopSmoothScroll() {
   let currentY = window.scrollY;
   let targetY = window.scrollY;
@@ -63,10 +68,7 @@ function setupDesktopSmoothScroll() {
   }
 
   function shouldKeepNativeWheel(event) {
-    if (event.ctrlKey || event.metaKey || event.defaultPrevented) return true;
-
-    const scrollable = event.target?.closest?.(".photo-row-portrait, .photo-carousel");
-    return Boolean(scrollable && scrollable.scrollWidth > scrollable.clientWidth);
+    return event.defaultPrevented || event.ctrlKey || event.metaKey || isHorizontalWheel(event);
   }
 
   function animateScroll() {
@@ -131,7 +133,7 @@ function setupDesktopSmoothScroll() {
   }
 
   function onWheel(event) {
-    if (!isActive) return;
+    if (!isActive || !event.cancelable) return;
     if (shouldKeepNativeWheel(event)) return;
 
     const deltaY = normalizeWheelDelta(event);
@@ -300,176 +302,6 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
     }
   });
 });
-
-function setupAutoScrollPhotoRows() {
-  document.querySelectorAll(".photo-row-portrait").forEach(row => {
-    const track = row.querySelector(".photo-track");
-    if (!track) return;
-
-    track.querySelectorAll("img").forEach((image) => {
-      image.draggable = false;
-      image.setAttribute("draggable", "false");
-    });
-
-    let frame = 0;
-    let lastTime = 0;
-    let scrollPosition = row.scrollLeft;
-    let isPaused = false;
-    let isAutoScrolling = false;
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartScrollLeft = 0;
-    let resumeTimer = 0;
-    let autoScrollTimer = 0;
-    const speed = finePointerQuery.matches ? 32 : 24;
-
-    function pauseBriefly(delay = 1600) {
-      isPaused = true;
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(() => {
-        isPaused = false;
-      }, delay);
-    }
-
-    function getLoopPoint() {
-      return Math.max(0, track.scrollWidth / 2);
-    }
-
-    function markAutoScrolling() {
-      isAutoScrolling = true;
-      row.classList.add("is-auto-scrolling");
-      window.clearTimeout(autoScrollTimer);
-      autoScrollTimer = window.setTimeout(() => {
-        isAutoScrolling = false;
-        row.classList.remove("is-auto-scrolling");
-      }, 120);
-    }
-
-    function scroll(time) {
-      if (!lastTime) lastTime = time;
-      const delta = Math.min(time - lastTime, 64);
-      lastTime = time;
-
-      const loopPoint = getLoopPoint();
-      if (!reducedMotionQuery.matches && !isPaused && loopPoint > row.clientWidth) {
-        markAutoScrolling();
-        scrollPosition += (speed * delta) / 1000;
-
-        if (scrollPosition >= loopPoint) {
-          scrollPosition -= loopPoint;
-        }
-
-        row.scrollLeft = scrollPosition;
-      }
-
-      frame = requestAnimationFrame(scroll);
-    }
-
-    function clampManualScroll(value) {
-      const maxScroll = Math.max(0, row.scrollWidth - row.clientWidth);
-      return Math.min(Math.max(value, 0), maxScroll);
-    }
-
-    function stopDragging(event) {
-      if (!isDragging) return;
-      isDragging = false;
-      row.classList.remove("is-dragging");
-      scrollPosition = row.scrollLeft;
-
-      if (event?.pointerId !== undefined && row.hasPointerCapture?.(event.pointerId)) {
-        row.releasePointerCapture(event.pointerId);
-      }
-    }
-
-    row.addEventListener("pointerdown", (event) => {
-      if (event.button !== undefined && event.button !== 0) return;
-      if (event.pointerType === "mouse") event.preventDefault();
-
-      isDragging = true;
-      dragStartX = event.clientX;
-      dragStartScrollLeft = row.scrollLeft;
-      scrollPosition = row.scrollLeft;
-      row.classList.add("is-dragging");
-      row.setPointerCapture?.(event.pointerId);
-      pauseBriefly(2200);
-    });
-
-    row.addEventListener("pointermove", (event) => {
-      if (!isDragging) return;
-
-      const dragDistance = event.clientX - dragStartX;
-      scrollPosition = clampManualScroll(dragStartScrollLeft - dragDistance);
-      row.scrollLeft = scrollPosition;
-      pauseBriefly(1600);
-    });
-
-    row.addEventListener("pointerup", stopDragging);
-    row.addEventListener("pointercancel", stopDragging);
-    row.addEventListener("pointerleave", stopDragging);
-    row.addEventListener("dragstart", (event) => {
-      event.preventDefault();
-    });
-    row.addEventListener("wheel", () => pauseBriefly(1200), { passive: true });
-    row.addEventListener("scroll", () => {
-      if (!isAutoScrolling) {
-        scrollPosition = row.scrollLeft;
-        pauseBriefly(1400);
-      }
-    }, { passive: true });
-
-    frame = requestAnimationFrame(scroll);
-  });
-}
-
-setupAutoScrollPhotoRows();
-
-function setupPhotoCarousels() {
-  document.querySelectorAll(".photo-carousel").forEach(carousel => {
-    const images = carousel.querySelectorAll("img");
-    const slides = carousel.querySelectorAll(".responsive-image");
-    const swipeMode = window.matchMedia("(max-width: 800px)").matches || !finePointerQuery.matches;
-    if (!images.length || reducedMotionQuery.matches) return;
-
-    let current = 0;
-    let isPaused = false;
-    let resumeTimer = 0;
-
-    function pauseBriefly(delay = 1800) {
-      isPaused = true;
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(() => {
-        isPaused = false;
-      }, delay);
-    }
-
-    window.setInterval(() => {
-      if (isPaused || document.hidden) return;
-
-      if (swipeMode && slides.length) {
-        current = (current + 1) % slides.length;
-        carousel.scrollTo({
-          left: carousel.clientWidth * current,
-          behavior: "smooth",
-        });
-        return;
-      }
-
-      images[current]?.classList.remove("active");
-      current = (current + 1) % images.length;
-      images[current]?.classList.add("active");
-    }, 3000);
-
-    carousel.addEventListener("pointerdown", () => pauseBriefly(), { passive: true });
-    carousel.addEventListener("wheel", () => pauseBriefly(1200), { passive: true });
-    carousel.addEventListener("scroll", () => {
-      if (!swipeMode || !carousel.clientWidth) return;
-      current = Math.round(carousel.scrollLeft / carousel.clientWidth) % Math.max(slides.length, 1);
-      pauseBriefly(1400);
-    }, { passive: true });
-  });
-}
-
-setupPhotoCarousels();
 
 if (finePointerQuery.matches) {
   document.querySelectorAll("[data-cursor-glow]").forEach((surface) => {

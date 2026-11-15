@@ -1,11 +1,3 @@
-@font-face {
-  font-family: "Source Serif 4";
-  src: url("../assets/fonts/source-serif-4-latin.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
 .hero-section {
   background: transparent;
   min-height: calc(100vh - 69px);
@@ -158,11 +150,6 @@
   display: grid;
   gap: 32px;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-}
-
-.editorial-title {
-  font-family: "Qiiii Matrix", "Source Serif 4", Georgia, serif;
-  font-weight: 400;
 }
 
 .intro-grid .editorial-title {

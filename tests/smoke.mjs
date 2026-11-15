@@ -636,25 +636,31 @@ for (const token of requiredDesktopThemeStyles) {
 }
 
 const requiredAboutPictureLayoutStyles = [
-  ".photo-track .responsive-image",
-  "flex: 0 0 auto;",
-  "overflow-x: auto;",
-  "-webkit-overflow-scrolling: touch;",
-  "scroll-snap-type: x proximity;",
-  ".photo-row-portrait.is-auto-scrolling",
-  ".photo-row-portrait.is-dragging",
-  "-webkit-user-drag: none;",
-  "user-select: none;",
-  "pointer-events: none;",
-  ".photo-carousel .responsive-image",
-  "position: absolute;",
-  "scroll-snap-type: x mandatory;",
-  ".photo-asymmetric .responsive-image",
-  ".photo-full",
+  ".photo-gallery",
+  "max-width: none;",
+  "gap: var(--photo-gap);",
+  "grid-template-columns: repeat(12, minmax(0, 1fr));",
+  "grid-template-columns: repeat(2, minmax(0, 1fr));",
 ];
 
 for (const token of requiredAboutPictureLayoutStyles) {
   assert(aboutCss.includes(token), `About picture layout styles are missing token: ${token}`);
+}
+
+const aboutHtml = await readFile("aboutme/index.html", "utf8");
+const gallerySources = [...aboutHtml.matchAll(/<img src="\.\.\/(assets\/images\/optimized\/aboutme\/[^"]+)"/g)]
+  .map(([, src]) => src);
+assert(gallerySources.length === 28 && new Set(gallerySources).size === 28, "About gallery should show each photo once");
+const uploadedPhotos = [
+  "august-0486", "august-0783", "august-0817", "coast-overlook",
+  "coast-breakers", "coast-pine-trail", "coast-pine-shore", "coast-stone-steps",
+];
+for (const name of uploadedPhotos) {
+  const base = `assets/images/optimized/aboutme/${name}`;
+  assert(gallerySources.includes(`${base}-960.jpg`), `About gallery is missing ${name}`);
+  for (const suffix of ["480.webp", "960.webp", "960.jpg"]) {
+    assert(existsSync(`${base}-${suffix}`), `About gallery asset is missing: ${base}-${suffix}`);
+  }
 }
 
 const requiredCertificatePictureStyles = [
@@ -792,26 +798,11 @@ for (const token of requiredMobilePerformanceScript) {
   assert(mainScript.includes(token), `Mobile performance script is missing token: ${token}`);
 }
 
-const requiredAboutPhotoMotionScript = [
-  "setupAutoScrollPhotoRows",
-  'document.querySelectorAll(".photo-row-portrait")',
-  "row.scrollLeft",
-  'row.addEventListener("pointerdown"',
-  'row.addEventListener("pointermove"',
-  'row.addEventListener("pointerup"',
-  'row.addEventListener("pointerleave"',
-  "setPointerCapture",
-  "releasePointerCapture",
-  "image.draggable = false",
-  'row.addEventListener("dragstart"',
-  "event.preventDefault()",
-  'row.addEventListener("scroll"',
-  "setupPhotoCarousels",
-  'document.querySelectorAll(".photo-carousel")',
-];
-
-for (const token of requiredAboutPhotoMotionScript) {
-  assert(mainScript.includes(token), `About photo motion script is missing token: ${token}`);
+for (const hook of ["photo-carousel", "photo-row-portrait"]) {
+  assert(
+    !aboutHtml.includes(hook) && !aboutCss.includes(hook) && !mainScript.includes(hook),
+    `About photo gallery should not use the old motion hook: ${hook}`
+  );
 }
 
 for (const token of forbiddenScript) {
