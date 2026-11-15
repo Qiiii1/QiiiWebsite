@@ -26,9 +26,9 @@
 }
 
 .back-link:hover {
-  background: rgba(0, 113, 227, 0.08);
-  border-color: rgba(0, 113, 227, 0.3);
-  color: var(--color-blue);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
   transform: translateY(-2px);
 }
 
@@ -42,7 +42,7 @@
 
 .project-hero h1 {
   font-size: clamp(64px, 12vw, 148px);
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
   line-height: 0.9;
   margin: 0;
 }
@@ -76,16 +76,16 @@
 }
 
 .project-action-link:hover {
-  background: var(--color-blue);
-  border-color: var(--color-blue);
-  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
   transform: translateY(-2px);
 }
 
 .project-cover {
-  aspect-ratio: 16 / 9;
-  border-radius: 32px;
-  height: 100%;
+  aspect-ratio: 7 / 5;
+  border-radius: 8px;
+  height: auto;
   object-fit: cover;
   width: 100%;
 }
@@ -100,22 +100,22 @@
 .detail-card {
   background: var(--color-panel);
   border: 1px solid var(--color-line);
-  border-radius: 24px;
+  border-radius: 8px;
   min-height: 180px;
   padding: 24px;
 }
 
 .detail-card span {
-  color: var(--color-blue-soft);
+  color: var(--color-accent);
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .detail-card h2 {
   font-size: clamp(24px, 3vw, 38px);
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 1;
   margin: 42px 0 0;
 }
@@ -154,7 +154,7 @@
 
 .media-strip img {
   aspect-ratio: 4 / 5;
-  border-radius: 24px;
+  border-radius: 8px;
   height: 100%;
   object-fit: cover;
   width: 100%;

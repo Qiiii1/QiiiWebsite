@@ -516,7 +516,7 @@ for (const { page, name, tokens } of requiredProjectReferenceContent) {
     `${name} should place the introduction copy before the project action links`
   );
   assert(
-    page.indexOf('class="project-text-block reveal"') < page.indexOf('class="project-cover reveal"'),
+    page.indexOf('class="project-text-block reveal"') < page.indexOf('<img class="project-cover reveal"'),
     `${name} should place the introduction copy before the cover image`
   );
 
@@ -703,7 +703,6 @@ for (const token of requiredHomePhysicsPerformanceScript) {
 const requiredMobilePerformanceStyles = [
   "@media (hover: none), (pointer: coarse), (max-width: 720px)",
   "overscroll-behavior: auto;",
-  "body::after {\n    display: none;",
   "[data-cursor-glow]::before {\n    display: none;",
   "backdrop-filter: blur(16px) saturate(160%);",
 ];
@@ -711,6 +710,16 @@ const requiredMobilePerformanceStyles = [
 for (const token of requiredMobilePerformanceStyles) {
   assert(css.includes(token), `Mobile performance styles are missing token: ${token}`);
 }
+
+assert(!css.includes("feTurbulence"), "Dot grid should replace the old fullscreen noise filter");
+assert(existsSync("assets/fonts/qiiii-matrix.woff2"), "Site should ship the dot-matrix digits font");
+
+assert(
+  (home.match(/class="responsive-image project-card-cover"/g) ?? []).length === 4 &&
+    !renderedPages.includes("data-cover-src=") &&
+    !renderedPages.includes("scripts/motion-covers.js"),
+  "Home and project details should use static project covers"
+);
 
 const requiredSmoothScrollStabilityStyles = [
   "html.smooth-scroll-active",

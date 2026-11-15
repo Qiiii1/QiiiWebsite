@@ -4,7 +4,7 @@
 
 .page-shell.about-hero h1 {
   font-size: clamp(52px, 10vw, 124px);
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
   line-height: 0.95;
   margin: 0 0 24px;
   max-width: 900px;
@@ -22,7 +22,7 @@
 
 .about-photo {
   aspect-ratio: 3 / 4;
-  border-radius: 32px;
+  border-radius: 8px;
   height: 100%;
   object-fit: cover;
   width: 100%;
@@ -32,7 +32,7 @@
   align-self: stretch;
   background: var(--color-panel);
   border: 1px solid var(--color-line);
-  border-radius: 32px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;

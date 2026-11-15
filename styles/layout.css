@@ -14,9 +14,9 @@
 }
 
 .site-logo {
-  font-family: var(--font-display);
+  font-family: "Qiiii Matrix Letters", var(--font-display);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .site-nav {
@@ -95,7 +95,7 @@
 }
 
 .theme-toggle:hover {
-  border-color: var(--color-blue);
+  border-color: var(--color-accent);
 }
 
 .theme-toggle .icon-sun,

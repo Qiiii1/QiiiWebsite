@@ -1,6 +1,6 @@
 .work-hero h1 {
   font-size: clamp(58px, 12vw, 140px);
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
   line-height: 0.95;
   margin: 0;
 }
@@ -75,15 +75,15 @@
 }
 
 .project-card span {
-  color: var(--color-blue-soft);
+  color: var(--color-accent);
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
 }
 
 .project-card h2 {
   font-size: clamp(32px, 5vw, 56px);
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 1;
   margin: 0;
 }
